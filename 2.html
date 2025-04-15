@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Text Display</title>
+    <style>
+        #displayText {
+            font-family: Arial, sans-serif;
+            white-space: pre-wrap; /* Preserve whitespace formatting */
+            word-wrap: break-word; /* Prevent long words from breaking layout */
+            text-decoration: underline; /* Underline the entire displayed text */
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Live Text Display (View Only)</h1>
+    <div id="displayText">
+        <!-- Updated text will be displayed here -->
+    </div>
+
+    <button onclick="copyText()">Copy Text</button>
+
+    <script>
+        window.onload = function() {
+            // Retrieve the text from localStorage
+            function displayText() {
+                var updatedText = localStorage.getItem('updatedText');
+                if (updatedText) {
+                    // Display the updated text with HTML formatting
+                    document.getElementById('displayText').innerHTML = updatedText;
+                } else {
+                    document.getElementById('displayText').innerText = "No content has been updated yet.";
+                }
+            }
+
+            // Call displayText function every 100ms to show real-time updates
+            setInterval(displayText, 100);
+        }
+
+        // Function to copy the displayed text to the clipboard
+        function copyText() {
+            var textToCopy = document.getElementById('displayText').innerText;
+            var textArea = document.createElement('textarea');
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert("Text copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
